@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     /*
      * Roll dice and change displayed value.
      */
-    fun rollDice(diceImage: ImageView){
+    private fun rollDice(diceImage: ImageView){
         diceImage.setImageResource(roll(numSides))
     }
 
@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     /*
      * Decrement the number of sides.
      */
-    fun decreaseSides(decreaseButton: Button){
+    private fun decreaseSides(decreaseButton: Button){
         numSides--
         decreaseButton.visibility = if(numSides == 1) GONE else VISIBLE
         decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides-1)

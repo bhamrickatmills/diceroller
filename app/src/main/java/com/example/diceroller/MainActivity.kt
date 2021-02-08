@@ -2,6 +2,7 @@ package com.example.diceroller
 
 import android.os.Bundle
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val rollButton: Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
         diceImage = findViewById(R.id.dice_image)
-        decreaseButton.text = getString(R.string.decrease_string) + (numSides -1)
+        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides -1)
         decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
         rollButton.setOnClickListener{ rollDice() }
     }
@@ -52,9 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     fun decreaseSides(decreaseButton: Button){
         numSides--
-        if(numSides == 1){
-            decreaseButton.visibility = GONE
-        }
-        decreaseButton.text = getString(R.string.decrease_string) + (numSides - 1)
+        decreaseButton.visibility = if(numSides == 1) GONE else VISIBLE
+        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides - 1)
     }
 }

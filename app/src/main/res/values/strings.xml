@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Dice Roller</string>
-    <string name="roll_button_text">Roll</string>
-    <string name="decrease_button_text"></string>
+    <string name="roll_button_text">Let\'s Roll</string>
+    <string name="decrease_button_text">Decrease maximum value</string>
+    <string name="dice_image_text">A dice image</string>
+    <string name="decrease_string">Decrease maximum value to </string>
 </resources>

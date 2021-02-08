@@ -1,6 +1,7 @@
 package com.example.diceroller
 
 import android.os.Bundle
+import android.view.View.GONE
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,8 @@ enum class Sides(val num:Int){
     ONE(1),TWO(2),THREE(3),FOUR(4),FIVE(5),SIX(6);
 }
 
-private var maxNum = Sides.SIX.num
+private var numSides = Sides.SIX.num
+private var decreaseVisible = true
 lateinit var diceImage: ImageView
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val rollButton: Button = findViewById(R.id.roll_button)
+        val decreaseButton: Button = findViewById(R.id.decrease_button)
+        diceImage = findViewById(R.id.dice_image)
+        decreaseButton.text = getString(R.string.decrease_string) + (numSides -1)
+        decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
         rollButton.setOnClickListener{ rollDice() }
     }
 
@@ -26,8 +32,7 @@ class MainActivity : AppCompatActivity() {
      * Roll dice and change displayed value.
      */
     fun rollDice(){
-        diceImage = findViewById(R.id.dice_image)
-        diceImage.setImageResource(roll(maxNum))
+        diceImage.setImageResource(roll(numSides))
     }
 
     /*
@@ -43,5 +48,13 @@ class MainActivity : AppCompatActivity() {
             Sides.SIX.num -> R.drawable.dice_6
             else -> R.drawable.empty_dice
         }
+    }
+
+    fun decreaseSides(decreaseButton: Button){
+        numSides--
+        if(numSides == 1){
+            decreaseButton.visibility = GONE
+        }
+        decreaseButton.text = getString(R.string.decrease_string) + (numSides - 1)
     }
 }

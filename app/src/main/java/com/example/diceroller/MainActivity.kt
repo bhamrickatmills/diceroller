@@ -12,10 +12,7 @@ import kotlin.random.nextInt
 enum class Sides(val num:Int){
     ONE(1),TWO(2),THREE(3),FOUR(4),FIVE(5),SIX(6);
 }
-
 private var numSides = Sides.SIX.num
-private var decreaseVisible = true
-lateinit var diceImage: ImageView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,16 +20,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val rollButton: Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
-        diceImage = findViewById(R.id.dice_image)
-        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides -1)
+        var diceImage:ImageView = findViewById(R.id.dice_image)
+        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides-1)
         decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
-        rollButton.setOnClickListener{ rollDice() }
+        rollButton.setOnClickListener{ rollDice(diceImage) }
     }
 
     /*
      * Roll dice and change displayed value.
      */
-    fun rollDice(){
+    fun rollDice(diceImage: ImageView){
         diceImage.setImageResource(roll(numSides))
     }
 
@@ -51,9 +48,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
+     * Decrement the number of sides.
+     */
     fun decreaseSides(decreaseButton: Button){
         numSides--
         decreaseButton.visibility = if(numSides == 1) GONE else VISIBLE
-        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides - 1)
+        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides-1)
     }
 }

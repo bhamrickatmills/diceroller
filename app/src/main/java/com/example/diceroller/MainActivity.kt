@@ -9,10 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-enum class Sides(val num:Int){
-    ONE(1),TWO(2),THREE(3),FOUR(4),FIVE(5),SIX(6);
-}
-private var numSides = Sides.SIX.num
+private var minSides = 1
+private var maxSides = 6
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,40 +18,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val rollButton: Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
-        var diceImage:ImageView = findViewById(R.id.dice_image)
-        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides-1)
+        val diceImage: ImageView = findViewById(R.id.dice_image)
+        decreaseButton.text = getString(R.string.decrease_string,maxSides - 1)
         decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
-        rollButton.setOnClickListener{ rollDice(diceImage) }
+        rollButton.setOnClickListener{ diceImage.setImageResource(roll()) }
     }
 
     /*
-     * Roll dice and change displayed value.
+     * Generate random integer between one and maximum number, and return image resource.
      */
-    private fun rollDice(diceImage: ImageView){
-        diceImage.setImageResource(roll(numSides))
-    }
-
-    /*
-     * Generate random integer between one and maximum number.
-     */
-    private fun roll(maxNum:Int): Int {
-        return when(Random.nextInt(Sides.ONE.num..maxNum)){
-            Sides.ONE.num -> R.drawable.dice_1
-            Sides.TWO.num -> R.drawable.dice_2
-            Sides.THREE.num -> R.drawable.dice_3
-            Sides.FOUR.num -> R.drawable.dice_4
-            Sides.FIVE.num -> R.drawable.dice_5
-            Sides.SIX.num -> R.drawable.dice_6
-            else -> R.drawable.empty_dice
-        }
+    private fun roll(): Int {
+        return resources.getIdentifier("dice_"
+                .plus(Random.nextInt(minSides..maxSides)),"drawable","com.example.diceroller")
     }
 
     /*
      * Decrement the number of sides.
      */
     private fun decreaseSides(decreaseButton: Button){
-        numSides--
-        decreaseButton.visibility = if(numSides == 1) GONE else VISIBLE
-        decreaseButton.text = getString(R.string.decrease_string).plus(" ") + (numSides-1)
+        maxSides--
+        decreaseButton.visibility = if(maxSides == 1) GONE else VISIBLE
+        decreaseButton.text = getString(R.string.decrease_string,maxSides - 1)
     }
 }

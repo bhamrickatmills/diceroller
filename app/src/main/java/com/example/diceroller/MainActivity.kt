@@ -21,15 +21,17 @@ class MainActivity : AppCompatActivity() {
         val diceImage: ImageView = findViewById(R.id.dice_image)
         decreaseButton.text = getString(R.string.decrease_string,maxSides - 1)
         decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
-        rollButton.setOnClickListener{ diceImage.setImageResource(roll()) }
+        rollButton.setOnClickListener{diceImage.setImageResource(roll())}
     }
 
     /*
      * Generate random integer between one and maximum number, and return image resource.
      */
     private fun roll(): Int {
-        return resources.getIdentifier("dice_"
-                .plus(Random.nextInt(minSides..maxSides)),"drawable","com.example.diceroller")
+        return resources.getIdentifier(
+                "dice_".plus(Random.nextInt(minSides..maxSides)),
+                "drawable",
+                "com.example.diceroller")
     }
 
     /*

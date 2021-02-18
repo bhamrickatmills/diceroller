@@ -11,35 +11,35 @@ import kotlin.random.nextInt
 
 private var minSides = 1
 private var maxSides = 6
+private lateinit var sideResources: List<Int>
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val rollButton: Button = findViewById(R.id.roll_button)
+        sideResources = listOf(R.drawable.empty_dice, R.drawable.dice_1, R.drawable.dice_2,
+                R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6 )
+        val rollButton : Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
-        val diceImage: ImageView = findViewById(R.id.dice_image)
-        decreaseButton.text = getString(R.string.decrease_string,maxSides - 1)
-        decreaseButton.setOnClickListener{decreaseSides(decreaseButton)}
-        rollButton.setOnClickListener{diceImage.setImageResource(roll())}
+        val diceImage : ImageView = findViewById(R.id.dice_image)
+        decreaseButton.text = getString(R.string.decrease_string, maxSides - 1)
+        decreaseButton.setOnClickListener{ decreaseSides(decreaseButton) }
+        rollButton.setOnClickListener{ diceImage.setImageResource(roll()) }
     }
 
     /*
      * Generate random integer between one and maximum number, and return image resource.
      */
     private fun roll(): Int {
-        return resources.getIdentifier(
-                "dice_".plus(Random.nextInt(minSides..maxSides)),
-                "drawable",
-                "com.example.diceroller")
+        return sideResources[Random.nextInt(minSides..maxSides)]
     }
 
     /*
      * Decrement the number of sides.
      */
-    private fun decreaseSides(decreaseButton: Button){
+    private fun decreaseSides(decreaseButton: Button) {
         maxSides--
         decreaseButton.visibility = if(maxSides == 1) GONE else VISIBLE
-        decreaseButton.text = getString(R.string.decrease_string,maxSides - 1)
+        decreaseButton.text = getString(R.string.decrease_string, maxSides - 1)
     }
 }

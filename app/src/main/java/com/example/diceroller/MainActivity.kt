@@ -9,22 +9,23 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import kotlin.random.nextInt
 
-private var minSides = 1
-private var maxSides = 6
-private lateinit var sideResources: List<Int>
-
 class MainActivity : AppCompatActivity() {
+
+    private var minSides = 1
+    private var maxSides = 6
+    private lateinit var sideResources: List<Int>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sideResources = listOf(R.drawable.empty_dice, R.drawable.dice_1, R.drawable.dice_2,
                 R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6 )
-        val rollButton : Button = findViewById(R.id.roll_button)
+        val rollButton: Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
-        val diceImage : ImageView = findViewById(R.id.dice_image)
+        val diceImage: ImageView = findViewById(R.id.dice_image)
+        rollButton.setOnClickListener{ diceImage.setImageResource(roll()) }
         decreaseButton.text = getString(R.string.decrease_string, maxSides - 1)
         decreaseButton.setOnClickListener{ decreaseSides(decreaseButton) }
-        rollButton.setOnClickListener{ diceImage.setImageResource(roll()) }
     }
 
     /*

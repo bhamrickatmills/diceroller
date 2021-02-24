@@ -11,26 +11,28 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 const val KEY_MAX_SIDES: String = "max_sides_key";
+const val KEY_IMAGE_INDEX: String = "image_index_key"
 
 class MainActivity : AppCompatActivity() {
 
     private var minSides = 1
     private var maxSides = 6
-    private lateinit var sideResources: List<Int>
+    private var sideResource = 0
+    private lateinit var sideResourceList: List<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        sideResources = listOf(R.drawable.empty_dice, R.drawable.dice_1, R.drawable.dice_2,
+        sideResourceList = listOf(R.drawable.empty_dice, R.drawable.dice_1, R.drawable.dice_2,
                 R.drawable.dice_3, R.drawable.dice_4, R.drawable.dice_5, R.drawable.dice_6 )
         val rollButton: Button = findViewById(R.id.roll_button)
         val decreaseButton: Button = findViewById(R.id.decrease_button)
         val diceImage: ImageView = findViewById(R.id.dice_image)
-        if (savedInstanceState != null){
-            Timber.i("Before restoring maxSides = $maxSides")
-            maxSides = savedInstanceState.getInt(KEY_MAX_SIDES)
-            Timber.i("After restoring maxSides = $maxSides")
-        }
+        Timber.i("Before restoring maxSides = $maxSides")
+        maxSides = savedInstanceState?.getInt(KEY_MAX_SIDES) ?: 6
+        Timber.i("After restoring maxSides = $maxSides")
+        sideResource = savedInstanceState?.getInt(KEY_IMAGE_INDEX) ?: sideResourceList[0]
+        diceImage.setImageResource(sideResource)
         rollButton.setOnClickListener{
             diceImage.setImageResource(roll())
         }
@@ -44,13 +46,15 @@ class MainActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         Timber.i("Saving maxSides = $maxSides")
         outState.putInt(KEY_MAX_SIDES, maxSides)
+        outState.putInt(KEY_IMAGE_INDEX, sideResource)
     }
 
     /*
      * Generate random integer between one and maximum number, and return image resource.
      */
     private fun roll(): Int {
-        return sideResources[Random.nextInt(minSides..maxSides)]
+        sideResource = sideResourceList[Random.nextInt(minSides..maxSides)]
+        return sideResource
     }
 
     /*
